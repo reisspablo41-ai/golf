@@ -1,0 +1,472 @@
+.page {
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #0b1120 0%, #1e293b 100%);
+  padding: 4rem 1.5rem;
+  text-align: center;
+  color: white;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: #94a3b8;
+}
+
+/* Layout */
+.builderLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .builderLayout {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+}
+
+/* Wizard */
+.wizard {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+/* Progress */
+.progress {
+  display: flex;
+  overflow-x: auto;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 1rem;
+}
+
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 1rem 0.75rem;
+  flex: 1;
+  min-width: 60px;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.progressStep.active,
+.progressStep.done {
+  opacity: 1;
+}
+
+.progressDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--border-color);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.progressStep.active .progressDot {
+  background: var(--primary-color);
+  color: white;
+}
+
+.progressStep.done .progressDot {
+  background: #16a34a;
+  color: white;
+}
+
+.progressLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.progressStep.active .progressLabel {
+  color: var(--primary-color);
+}
+
+/* Step content */
+.stepContent {
+  padding: 2rem;
+}
+
+.stepTitle {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.stepSubtitle {
+  color: var(--text-secondary);
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Option cards (base cart / seating / motor) */
+.optionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .optionGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  padding: 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.optionCard:hover {
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+}
+
+.optionCard.selected {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+}
+
+.optionCard h3 {
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.optionCard p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  flex-grow: 1;
+}
+
+.priceTag {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-top: 0.25rem;
+}
+
+/* Color picker */
+.colorGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 480px) {
+  .colorGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.colorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.colorCard.selected {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+}
+
+.colorSwatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.1);
+}
+
+.colorLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.colorPrice {
+  font-size: 0.7rem;
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+/* Accessories */
+.accessoryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .accessoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.accessoryCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  text-align: left;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.accessoryCard.selected {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+}
+
+.accessoryCheck {
+  position: absolute;
+  top: 1rem;
+  left: 0.875rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.accessoryCard.selected .accessoryCheck {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #0b1120;
+}
+
+.accessoryCard h3 {
+  font-size: 0.9375rem;
+  color: var(--primary-color);
+}
+
+.accessoryCard p {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Contact form */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 480px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.inputGroup input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.inputGroup input:focus {
+  border-color: var(--primary-color);
+}
+
+/* Nav buttons */
+.navButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border-color);
+  background: #f9fafb;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: white;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.backBtn:hover {
+  background: var(--background-alt);
+}
+
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-left: auto;
+}
+
+.nextBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Summary sidebar */
+.summary {
+  background: var(--primary-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  color: white;
+  position: sticky;
+  top: 6rem;
+}
+
+.summaryTitle {
+  font-size: 1.125rem;
+  color: white;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #1f2937;
+}
+
+.summaryLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 1.25rem;
+}
+
+.summaryLine {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #d1d5db;
+}
+
+.summaryLine span:last-child {
+  font-weight: 600;
+  color: var(--accent-color);
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #374151;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: white;
+}
+
+.summaryTotal span:last-child {
+  color: var(--accent-color);
+  font-size: 1.375rem;
+}
+
+.summaryEmpty {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.summaryDisclaimer {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Success page */
+.successPage {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.successCard {
+  max-width: 500px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.successIcon {
+  color: #16a34a;
+}
+
+.successCard h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.successCard p {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
