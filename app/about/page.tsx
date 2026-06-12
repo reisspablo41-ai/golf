@@ -1,72 +1,147 @@
-import { Trophy, Wrench, ShieldCheck, Users } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Trophy, Wrench, ShieldCheck, Users, ArrowRight } from 'lucide-react';
+import styles from './about.module.css';
+
+export const metadata = {
+  title: 'About Us | Premier Golf Carts',
+  description: 'Learn the story behind Premier Golf Carts — master craftsmen, precision engineering, and nationwide delivery from our Florida facility.',
+};
 
 export default function AboutPage() {
   return (
-    <div className="container" style={{ padding: '4rem 1.5rem' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>About Premier Carts</h1>
-        <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '4rem' }}>
-          Forged from a passion for performance and an eye for uncompromising style, 
-          we are the leading builders of premium custom and street-legal golf carts.
-        </p>
-      </div>
+    <main>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', marginBottom: '5rem' }}>
-        <div style={{ backgroundColor: 'var(--background-alt)', padding: '2.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <h2 style={{ fontSize: '1.75rem', marginBottom: '1.5rem', color: 'var(--primary-color)' }}>Our Story</h2>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1rem' }}>
-            What started as a small garage project has evolved into a premier nationwide supplier of high-performance vehicles. 
-            We recognized that golf carts were no longer just for the fairway—they've become a primary mode of transportation 
-            for master-planned communities, ranches, and city streets.
-          </p>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-            By combining automotive-grade engineering with bespoke design, we have revolutionized what a golf cart can be. 
-            Today, Premier Carts operates out of a state-of-the-art facility in Florida, delivering custom-built masterpieces to clients across the country.
-          </p>
+      {/* ── HERO ── */}
+      <section className={styles.hero}>
+        <div className={styles.heroImg} />
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroContent}>
+          <div className="container">
+            <span className={styles.eyebrow}>Our Story</span>
+            <h1 className={styles.heroTitle}>Built on Passion.<br />Driven by Craft.</h1>
+            <p className={styles.heroSub}>
+              From a Florida garage to a nationwide operation — Premier Golf Carts was born from a relentless pursuit of the perfect ride.
+            </p>
+          </div>
         </div>
-        <div style={{ backgroundColor: 'var(--background-alt)', padding: '2.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <h2 style={{ fontSize: '1.75rem', marginBottom: '1.5rem', color: 'var(--primary-color)' }}>The Build Process</h2>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1rem' }}>
-            Every custom cart undergoes an exhaustive 32-point inspection spanning electrical diagnostics, torque validation, 
-            and alignment mapping. Whether installing a 48V Lithium-Ion power plant or stitching marine-grade upholstery, 
-            our technicians refuse to cut corners.
-          </p>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-            From the initial chassis prep to the final clear coat, our process takes an average of 14 days. This meticulous attention to detail ensures that every cart leaving our depot exceeds both aesthetic expectations and DOT safety standards.
-          </p>
-        </div>
-      </div>
+      </section>
 
-      <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '3rem' }}>Core Pillars</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center', marginBottom: '5rem' }}>
-        <div style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent-color)' }}><Trophy size={40} /></div>
-          <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem' }}>Quality Craftsmanship</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Built to outlast and outperform the competition with premium sourced materials.</p>
-        </div>
-        <div style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent-color)' }}><Wrench size={40} /></div>
-          <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem' }}>Precision Engineering</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Advanced suspension systems, reliable powertrains, and cutting-edge lithium technology.</p>
-        </div>
-        <div style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent-color)' }}><ShieldCheck size={40} /></div>
-          <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem' }}>Safety First</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Street-legal configurations exceeding local DOT requirements with full light kits and seatbelts.</p>
-        </div>
-        <div style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent-color)' }}><Users size={40} /></div>
-          <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem' }}>Customer Dedication</h3>
-          <p style={{ color: 'var(--text-secondary)' }}>Unwavering support long after your cart is delivered, backed by our leading warranty.</p>
-        </div>
-      </div>
+      {/* ── STORY ── */}
+      <section className={styles.story}>
+        <div className="container">
+          <div className={styles.storyInner}>
 
-      <div style={{ backgroundColor: 'var(--primary-color)', color: 'var(--text-light)', padding: '4rem 2rem', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'var(--text-light)' }}>Meet the Team</h2>
-        <p style={{ fontSize: '1.125rem', color: '#cbd5e1', maxWidth: '600px', margin: '0 auto' }}>
-          Our crew consists of master mechanics, specialized electricians, and dedicated customer success reps. We are all united by a single goal: building the best carts on the market.
-        </p>
-      </div>
-    </div>
+            <div className={styles.storyImgWrap}>
+              <Image
+                src="https://images.pexels.com/photos/12586166/pexels-photo-12586166.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Customers enjoying a Premier Golf Cart"
+                width={1200}
+                height={900}
+                className={styles.storyImg}
+                priority
+              />
+            </div>
+
+            <div className={styles.storyText}>
+              <span className={styles.eyebrow}>Who We Are</span>
+              <h2 className={styles.storyTitle}>More Than a Cart Dealer — We're Builders.</h2>
+              <p className={styles.storyBody}>
+                Premier Carts was founded on a singular, uncompromising vision: to elevate the standard of low-speed vehicles and custom golf carts beyond simple utility and into the realm of luxury, performance, and highly personalized engineering. What began as a passionate pursuit to build the ultimate neighborhood cruiser has grown into a premier, nationwide operation.
+              </p>
+              <p className={styles.storyBody}>
+                We recognized early on that golf carts were no longer confined just to the fairway — they've rapidly evolved into primary modes of transportation for master-planned communities, ranches, industrial complexes, and street-legal city commuting. By bridging the gap between automotive-grade engineering and bespoke hand-crafted design, we've revolutionized what a golf cart can be.
+              </p>
+              <p className={styles.storyBody}>
+                Today, Premier Carts operates out of a state-of-the-art facility in Florida, where raw chassis and advanced lithium-ion power plants are meticulously transformed into custom-built masterpieces by a team of master mechanics, specialized electricians, and dedicated designers.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ── */}
+      <section className={styles.statsBar}>
+        <div className="container">
+          <div className={styles.statsGrid}>
+            {[
+              { value: '500+', label: 'Carts Delivered' },
+              { value: '50',   label: 'States Served' },
+              { value: '10+',  label: 'Years Experience' },
+              { value: '100%', label: 'Satisfaction Rate' },
+            ].map(s => (
+              <div key={s.label}>
+                <div className={styles.statValue}>{s.value}</div>
+                <div className={styles.statLabel}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BUILD PROCESS ── */}
+      <section className={styles.process}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <span className={styles.eyebrow}>How We Build</span>
+            <h2 className={styles.sectionTitle}>The Build Process</h2>
+            <p className={styles.sectionSub}>Every cart undergoes a rigorous 32-point inspection before it ever leaves our facility.</p>
+          </div>
+          <div className={styles.processGrid}>
+            {[
+              { n: '01', title: 'Chassis Prep',       desc: 'We start with premium-grade frames — inspected, cleaned, and treated for corrosion resistance before any build begins.' },
+              { n: '02', title: 'Power & Electrical', desc: 'Advanced lithium-ion power plants and full wiring harnesses are installed to automotive standards with proper gauging and fusing.' },
+              { n: '03', title: 'Body & Finishing',   desc: 'Marine-grade upholstery, custom paint or wrap, and premium trim are applied by hand. Every panel is fitted, not forced.' },
+              { n: '04', title: '32-Point Inspection', desc: 'Torque validation, alignment mapping, electrical diagnostics, and a final road test. Only then does it earn the Premier Carts seal.' },
+            ].map(step => (
+              <div key={step.n} className={styles.processCard}>
+                <div className={styles.processNum}>{step.n}</div>
+                <h3 className={styles.processTitle}>{step.title}</h3>
+                <p className={styles.processDesc}>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CORE PILLARS ── */}
+      <section className={styles.pillars}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <span className={styles.eyebrow}>Our Values</span>
+            <h2 className={styles.sectionTitle}>Core Pillars</h2>
+          </div>
+          <div className={styles.pillarsGrid}>
+            {[
+              { icon: <Trophy size={36} />,     title: 'Quality Craftsmanship', desc: 'Built to outlast and outperform the competition with premium sourced materials and meticulous attention to detail.' },
+              { icon: <Wrench size={36} />,      title: 'Precision Engineering',  desc: 'Advanced suspension systems, reliable powertrains, and cutting-edge lithium technology on every build.' },
+              { icon: <ShieldCheck size={36} />, title: 'Safety First',           desc: 'Street-legal configurations exceeding local DOT requirements with full light kits, mirrors, and seatbelts.' },
+              { icon: <Users size={36} />,       title: 'Customer Dedication',    desc: 'Unwavering support long after your cart is delivered, backed by our industry-leading warranty.' },
+            ].map(p => (
+              <div key={p.title} className={styles.pillarCard}>
+                <div className={styles.pillarIcon}>{p.icon}</div>
+                <h3 className={styles.pillarTitle}>{p.title}</h3>
+                <p className={styles.pillarDesc}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TEAM CTA ── */}
+      <section className={styles.team}>
+        <div className="container">
+          <h2 className={styles.teamTitle}>Meet the Team Behind Every Build</h2>
+          <p className={styles.teamSub}>
+            Our crew of master mechanics, specialized electricians, and dedicated customer success reps are all united by one goal: building the best carts on the market.
+          </p>
+          <Link href="/contact" className={styles.teamBtn}>
+            Get in Touch <ArrowRight size={16} />
+          </Link>
+        </div>
+      </section>
+
+    </main>
   );
 }

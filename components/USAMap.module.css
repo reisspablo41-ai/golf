@@ -1,0 +1,201 @@
+/* ── Section shell ── */
+.section {
+  padding: 7rem 0 6rem;
+  background: var(--primary-color);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle radial glow behind the grid */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(234, 179, 8, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 0.875rem;
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.sub {
+  font-size: 1.0625rem;
+  color: #94a3b8;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ── Map wrapper ── */
+.mapWrap {
+  position: relative;
+  margin-bottom: 3.5rem;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at center, rgba(234, 179, 8, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Tile grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 4px;
+  max-width: 860px;
+  margin: 0 auto;
+  /* Row height: keep tiles square-ish */
+  grid-auto-rows: minmax(40px, 1fr);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    gap: 5px;
+  }
+}
+
+/* ── Individual state tile ── */
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  aspect-ratio: 1;
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  cursor: default;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  overflow: hidden;
+}
+
+.tile:hover {
+  background: rgba(234, 179, 8, 0.22);
+  border-color: rgba(234, 179, 8, 0.7);
+  box-shadow: 0 0 12px rgba(234, 179, 8, 0.25), inset 0 0 8px rgba(234, 179, 8, 0.08);
+}
+
+.tileLabel {
+  font-size: clamp(0.5rem, 1vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(234, 179, 8, 0.9);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Subtle inner glow on hover */
+.tilePulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgba(234, 179, 8, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tile:hover .tilePulse {
+  opacity: 1;
+}
+
+/* Staggered pulse animation for "all lit up" look */
+.tile:nth-child(3n+1)  { animation: tileGlow 4s ease-in-out 0.0s infinite; }
+.tile:nth-child(3n+2)  { animation: tileGlow 4s ease-in-out 1.3s infinite; }
+.tile:nth-child(3n)    { animation: tileGlow 4s ease-in-out 2.6s infinite; }
+
+@keyframes tileGlow {
+  0%,  100% { border-color: rgba(234, 179, 8, 0.22); }
+  50%        { border-color: rgba(234, 179, 8, 0.55); box-shadow: 0 0 8px rgba(234, 179, 8, 0.18); }
+}
+
+/* ── AK / HI separator ── */
+.grid > div[style*="gridRow: 8"],
+.grid > div[style*="grid-row: 8"] {
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ── Inset label ── */
+.insetLabel {
+  text-align: center;
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.06em;
+  margin-top: 0.5rem;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Bottom CTA area ── */
+.cta {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  justify-content: center;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 2rem;
+  padding: 0.375rem 0.875rem;
+  letter-spacing: 0.02em;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-color);
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 0.875rem 2rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.ctaBtn:hover {
+  background: #facc15;
+  transform: translateY(-2px);
+}

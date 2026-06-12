@@ -1,57 +1,73 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, ShoppingCart, Package, Users, Settings, LogOut } from 'lucide-react';
+import { Zap, LogOut } from 'lucide-react';
+import AdminSidebar from '@/components/AdminSidebar';
 import styles from './admin.module.css';
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
-  const authCookie = cookieStore.get('admin_auth');
-  const isAdmin = authCookie?.value === process.env.ADMIN_PASSWORD;
+  const isAdmin = cookieStore.get('admin_auth')?.value === process.env.ADMIN_PASSWORD;
+
+  if (!isAdmin) redirect('/admin/login');
+
+  async function logout() {
+    'use server';
+    const store = await cookies();
+    store.delete('admin_auth');
+    redirect('/admin/login');
+  }
 
   return (
     <div className={styles.adminLayout}>
+
+      {/* ── Sidebar ── */}
       <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <h2>Admin Panel</h2>
+        <div className={styles.sidebarBrand}>
+          <div className={styles.brandIcon}><Zap size={18} /></div>
+          <div>
+            <div className={styles.brandName}>Premier Carts</div>
+            <div className={styles.brandSub}>Admin Console</div>
+          </div>
         </div>
-        <nav className={styles.sidebarNav}>
-          <Link href="/admin" className={styles.navLink}><LayoutDashboard size={20} /> Dashboard</Link>
-          <Link href="/admin/orders" className={styles.navLink}><ShoppingCart size={20} /> Orders</Link>
-          <Link href="/admin/products" className={styles.navLink}><Package size={20} /> Products</Link>
-          <Link href="/admin/customers" className={styles.navLink}><Users size={20} /> Customers</Link>
-          <Link href="/admin/settings" className={styles.navLink}><Settings size={20} /> Settings</Link>
-        </nav>
+
+        {/* Client nav (needs usePathname for active state) */}
+        <AdminSidebar />
+
         <div className={styles.sidebarFooter}>
-          <form action={async () => {
-            'use server';
-            const cookieStore = await cookies();
-            cookieStore.delete('admin_auth');
-            redirect('/admin/login');
-          }}>
-            <button type="submit" className={styles.navLink} style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer' }}>
-              <LogOut size={20} /> Sign Out
+          <div className={styles.adminBadge}>
+            <div className={styles.adminAvatar}>A</div>
+            <div>
+              <span className={styles.adminName}>Administrator</span>
+              <span className={styles.adminRole}>Super Admin</span>
+            </div>
+          </div>
+          <form action={logout}>
+            <button type="submit" className={styles.logoutBtn}>
+              <LogOut size={15} /> Sign Out
             </button>
           </form>
         </div>
       </aside>
+
+      {/* ── Main ── */}
       <main className={styles.mainContent}>
-        <header className={styles.topHeader}>
-          <div className={styles.headerLeft}>
-            {/* Breadcrumbs or Title could go here */}
+        <header className={styles.topbar}>
+          <div className={styles.topbarLeft}>
+            <Link href="/" className={styles.topbarSep} style={{ textDecoration: 'none', color: 'inherit' }}>
+              premiergolfcartssale.com
+            </Link>
           </div>
-          <div className={styles.headerRight}>
-            <span className={styles.userEmail}>Administrator</span>
+          <div className={styles.topbarRight}>
+            <span className={styles.topbarBadge}>Live Site</span>
           </div>
         </header>
+
         <div className={styles.contentArea}>
           {children}
         </div>
       </main>
+
     </div>
   );
 }

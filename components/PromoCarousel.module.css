@@ -1,0 +1,192 @@
+.section {
+  position: relative;
+  height: 92vh;
+  min-height: 560px;
+  max-height: 860px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Background image */
+.imageWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.imageBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(11, 17, 32, 0.88) 0%,
+    rgba(11, 17, 32, 0.62) 50%,
+    rgba(11, 17, 32, 0.2) 100%
+  );
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.inner {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--accent-color);
+  padding-left: 0.75rem;
+}
+
+.headline {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.5px;
+}
+
+.sub {
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.75;
+  margin-bottom: 2.25rem;
+  max-width: 520px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-color);
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btnPrimary:hover {
+  background: #facc15;
+  transform: translateY(-2px);
+}
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.btnOutline:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  backdrop-filter: blur(4px);
+}
+
+.arrow:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--primary-color);
+}
+
+.arrowLeft  { left: 1.5rem; }
+.arrowRight { right: 1.5rem; }
+
+/* Dots */
+.dots {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s;
+}
+
+.dotActive {
+  background: var(--accent-color);
+  width: 28px;
+  border-radius: 4px;
+}
+
+/* Progress bar */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 3;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--accent-color);
+}

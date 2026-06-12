@@ -175,3 +175,63 @@ create trigger set_products_updated_at
 create trigger set_orders_updated_at
   before update on orders
   for each row execute procedure handle_updated_at();
+
+-- ==============================================================================
+-- SITE SETTINGS TABLE
+-- Run this in Supabase SQL Editor to enable the discount feature.
+-- ==============================================================================
+create table if not exists site_settings (
+  id text primary key default 'global',
+  discount_active boolean default false,
+  discount_percent numeric default 0 check (discount_percent >= 0 and discount_percent <= 100),
+  discount_label text default 'Sale',
+  updated_at timestamp with time zone default now()
+);
+
+-- Seed the single global row
+insert into site_settings (id) values ('global') on conflict (id) do nothing;
+
+-- RLS: public read, service-role write (admin client bypasses RLS anyway)
+alter table site_settings enable row level security;
+create policy "Anyone can read site settings" on site_settings for select using (true);
+
+-- ==============================================================================
+-- STORAGE BUCKET — product-images
+-- Run this in Supabase SQL Editor (Dashboard → SQL Editor → New Query).
+-- This creates the bucket that the admin image uploader writes to.
+-- ==============================================================================
+
+-- 1. Create the bucket (public so uploaded images are accessible by URL)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'product-images',
+  'product-images',
+  true,
+  10485760,   -- 10 MB per file
+  array['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
+)
+on conflict (id) do update set
+  public             = true,
+  file_size_limit    = 10485760,
+  allowed_mime_types = array['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+
+-- 2. Allow anyone to VIEW images (they're public product photos)
+create policy "Public read – product images"
+  on storage.objects for select
+  using (bucket_id = 'product-images');
+
+-- 3. Allow uploads  (the API uses the service-role key which bypasses RLS,
+--    but this policy lets the bucket work even from the dashboard)
+create policy "Allow uploads – product images"
+  on storage.objects for insert
+  with check (bucket_id = 'product-images');
+
+-- 4. Allow replacing an existing image
+create policy "Allow updates – product images"
+  on storage.objects for update
+  using (bucket_id = 'product-images');
+
+-- 5. Allow the admin to delete images
+create policy "Allow deletes – product images"
+  on storage.objects for delete
+  using (bucket_id = 'product-images');

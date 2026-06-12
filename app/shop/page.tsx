@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import styles from './page.module.css';
-import { Filter, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { createClient } from '@/utils/supabase/server';
+import { getDiscount, applyDiscount } from '@/utils/discount';
 
 export default async function ShopPage({
   searchParams,
@@ -26,8 +27,11 @@ export default async function ShopPage({
     query = query.order('created_at', { ascending: false }); // default to newest
   }
 
-  const { data: products, error } = await query;
+  const { data: products } = await query;
   const filteredProducts = products || [];
+  const discount = await getDiscount();
+
+  const fmt = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
   return (
     <div className="container" style={{ padding: '3rem 1.5rem' }}>
@@ -45,8 +49,14 @@ export default async function ShopPage({
         </div>
       </div>
 
+      {discount.active && discount.percent > 0 && (
+        <div className={styles.discountBanner}>
+          <span className={styles.discountTag}>{discount.label} — {discount.percent}% OFF</span>
+          <span>Sitewide discount applied to all products. Limited time only.</span>
+        </div>
+      )}
+
       <div className={styles.shopLayout}>
-        {/* Sidebar Filters */}
         <aside className={styles.sidebar}>
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Category</h3>
@@ -58,7 +68,6 @@ export default async function ShopPage({
               <Link href="/shop?category=parts" className={category === 'parts' ? styles.activeFilter : ''}>Parts & Accessories</Link>
             </div>
           </div>
-          
           <div className={styles.filterGroup}>
             <h3 className={styles.filterTitle}>Price Range</h3>
             <div className={styles.priceInputs}>
@@ -69,21 +78,33 @@ export default async function ShopPage({
           </div>
         </aside>
 
-        {/* Product Grid */}
         <main className={styles.productGrid}>
-          {filteredProducts.map(product => (
-            <Link href={`/shop/${product.slug}`} key={product.id} className={styles.productCard}>
-              <div className={styles.productImageContainer} style={{ backgroundImage: `url(${product.images?.[0] || 'https://images.unsplash.com/photo-1593111774240-d529f12cb416?auto=format&fit=crop&w=800&q=80'})` }}>
-              </div>
-              <div className={styles.productInfo}>
-                <span className={styles.productCategory}>{product.category.toUpperCase()}</span>
-                <h3 className={styles.productName}>{product.name}</h3>
-                <p className={styles.productPrice}>
-                  ${product.base_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {filteredProducts.map(product => {
+            const original = Number(product.base_price);
+            const sale = applyDiscount(original, discount);
+            const hasDiscount = discount.active && discount.percent > 0;
+            return (
+              <Link href={`/shop/${product.slug}`} key={product.id} className={styles.productCard}>
+                <div className={styles.productImageContainer} style={{ backgroundImage: `url(${product.images?.[0] || 'https://images.unsplash.com/photo-1593111774240-d529f12cb416?auto=format&fit=crop&w=800&q=80'})` }}>
+                  {hasDiscount && (
+                    <span className={styles.discountBadge}>{discount.percent}% OFF</span>
+                  )}
+                </div>
+                <div className={styles.productInfo}>
+                  <span className={styles.productCategory}>{product.category.toUpperCase()}</span>
+                  <h3 className={styles.productName}>{product.name}</h3>
+                  {hasDiscount ? (
+                    <p className={styles.productPrice}>
+                      <span className={styles.originalPrice}>${fmt(original)}</span>
+                      <span className={styles.salePrice}>${fmt(sale)}</span>
+                    </p>
+                  ) : (
+                    <p className={styles.productPrice}>${fmt(original)}</p>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
           {filteredProducts.length === 0 && (
             <div className={styles.emptyState}>
               <p>No products found in this category.</p>

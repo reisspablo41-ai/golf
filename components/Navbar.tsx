@@ -1,12 +1,25 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingCart, Menu } from 'lucide-react';
+import { ShoppingCart, Phone, Mail } from 'lucide-react';
 import styles from './Navbar.module.css';
 import CartBadge from './CartBadge';
+import MobileMenu from './MobileMenu';
 
 export default function Navbar() {
   return (
     <header className={styles.header}>
+      {/* Top Bar */}
+      <div className={styles.topBar}>
+        <div className={`container ${styles.topBarContainer}`}>
+          <a href="tel:2053040178" className={styles.topBarLink}>
+            <Phone size={14} /> (205) 304-0178
+          </a>
+          <a href="mailto:contact@premiergolfcartssale.com" className={styles.topBarLink}>
+            <Mail size={14} /> contact@premiergolfcartssale.com
+          </a>
+        </div>
+      </div>
+
       <div className={`container ${styles.navContainer}`}>
         <Link href="/" className={styles.logo}>
           <Image src="/golf-logo.png" alt="Premier Golf Carts" width={40} height={40} priority />
@@ -25,9 +38,7 @@ export default function Navbar() {
             <ShoppingCart size={20} />
             <CartBadge />
           </Link>
-          <button className={styles.mobileMenuBtn} aria-label="Menu">
-            <Menu size={24} />
-          </button>
+          <MobileMenu />
         </div>
       </div>
     </header>

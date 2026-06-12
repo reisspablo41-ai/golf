@@ -1,0 +1,253 @@
+/* ── Uploader shell ── */
+.uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+/* ── Main + secondary layout ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.625rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 320px;
+  }
+
+  .mainSlot {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+}
+
+/* ── Slot base ── */
+.slot {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px dashed #d1d5db;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 120px;
+}
+
+@media (min-width: 640px) {
+  .mainSlot { min-height: unset; }
+  .slot      { min-height: unset; }
+}
+
+.slot:hover:not(.slotDisabled) {
+  border-color: #eab308;
+  background: #fefce8;
+}
+
+.mainSlot {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px dashed #d1d5db;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 200px;
+}
+
+.mainSlot:hover:not(.slotDisabled) {
+  border-color: #eab308;
+  background: #fefce8;
+}
+
+.slotDisabled { cursor: default; }
+
+.dragOver {
+  border-color: #eab308 !important;
+  background: #fefce8 !important;
+  box-shadow: inset 0 0 0 2px rgba(234,179,8,0.3);
+}
+
+/* ── Empty state ── */
+.emptyState {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  pointer-events: none;
+}
+
+.emptyIcon {
+  color: #d1d5db;
+  transition: color 0.2s;
+}
+
+.slot:hover .emptyIcon,
+.mainSlot:hover .emptyIcon {
+  color: #ca8a04;
+}
+
+.emptyLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.emptyHint {
+  font-size: 0.6875rem;
+  color: #d1d5db;
+}
+
+.mainSlot .emptyLabel { font-size: 0.875rem; }
+
+/* ── Badge (Main / 2 / 3 etc) ── */
+.badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 4;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.badgeMain {
+  background: rgba(234,179,8,0.9);
+  color: #0b1120;
+}
+
+/* ── Image preview ── */
+.preview {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Hover overlay */
+.previewOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.slot:hover .previewOverlay,
+.mainSlot:hover .previewOverlay {
+  background: rgba(0,0,0,0.45);
+  opacity: 1;
+}
+
+/* Delete button */
+.deleteBtn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 5;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  backdrop-filter: blur(4px);
+}
+
+.deleteBtn:hover { background: #dc2626; }
+
+/* ── Uploading state ── */
+.uploadingState {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(249,250,251,0.8);
+  pointer-events: none;
+}
+
+/* Spinner animation */
+.spinner {
+  animation: spin 0.9s linear infinite;
+  color: #eab308;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.uploadingLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Progress bar */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(234,179,8,0.2);
+}
+
+.progressFill {
+  height: 100%;
+  background: #eab308;
+  animation: progressPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+  0%   { width: 0%; }
+  50%  { width: 70%; }
+  100% { width: 90%; }
+}
+
+/* ── Error state ── */
+.errorMsg {
+  font-size: 0.75rem;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* ── Hint row ── */
+.hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,6 +67,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </Providers>
+        <Script src="//code.jivosite.com/widget/5bwlRyaS7D" strategy="lazyOnload" />
       </body>
     </html>
   );

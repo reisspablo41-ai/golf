@@ -3,17 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, DollarSign, Smartphone, CreditCard, Building2, Landmark, Bitcoin } from 'lucide-react';
 import { useCart } from '@/components/CartContext';
 import styles from './page.module.css';
 
 const PAYMENT_METHODS = [
-  { id: 'cashapp',  label: 'Cash App',      icon: '💵' },
-  { id: 'applepay', label: 'Apple Pay',     icon: '🍎' },
-  { id: 'venmo',    label: 'Venmo',         icon: '💙' },
-  { id: 'chime',    label: 'Chime',         icon: '🏦' },
-  { id: 'bank',     label: 'Bank Transfer', icon: '🏛️' },
-  { id: 'crypto',   label: 'Crypto',        icon: '₿'  },
+  { id: 'cashapp',  label: 'Cash App',      icon: <DollarSign size={22} /> },
+  { id: 'applepay', label: 'Apple Pay',     icon: <Smartphone size={22} /> },
+  { id: 'venmo',    label: 'Venmo',         icon: <CreditCard size={22} /> },
+  { id: 'chime',    label: 'Chime',         icon: <Building2  size={22} /> },
+  { id: 'bank',     label: 'Bank Transfer', icon: <Landmark   size={22} /> },
+  { id: 'crypto',   label: 'Crypto',        icon: <Bitcoin    size={22} /> },
 ];
 
 export default function CheckoutPage() {

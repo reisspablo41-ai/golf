@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import AddToCartButton from '@/components/AddToCartButton';
+import { getDiscount, applyDiscount } from '@/utils/discount';
 
 export default async function ProductPage({
   params,
@@ -13,21 +14,22 @@ export default async function ProductPage({
   const { slug } = await params;
 
   const supabase = await createClient();
-  const { data: product } = await supabase
-    .from('products')
-    .select('*, product_options(*)')
-    .eq('slug', slug)
-    .single();
+  const [{ data: product }, discount] = await Promise.all([
+    supabase.from('products').select('*, product_options(*)').eq('slug', slug).single(),
+    getDiscount(),
+  ]);
 
-  if (!product) {
-    notFound();
-  }
+  if (!product) notFound();
 
   const images = product.images?.length ? product.images : [
     'https://images.unsplash.com/photo-1593111774640-36e6557551cc?auto=format&fit=crop&w=1200&q=80'
   ];
 
   const specs = product.specifications || {};
+  const originalPrice = Number(product.base_price);
+  const salePrice = applyDiscount(originalPrice, discount);
+  const hasDiscount = discount.active && discount.percent > 0;
+  const fmt = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
   return (
     <div className="container" style={{ padding: '2rem 1.5rem 5rem' }}>
@@ -66,7 +68,19 @@ export default async function ProductPage({
             <p className={styles.productDescription}>{product.description}</p>
             <div className={styles.priceContainer}>
               <span className={styles.priceLabel}>Base Price</span>
-              <span className={styles.priceValue}>${product.base_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              {hasDiscount ? (
+                <span>
+                  <span style={{ textDecoration: 'line-through', color: '#94a3b8', marginRight: '0.5rem', fontWeight: 500, fontSize: '1.125rem' }}>
+                    ${fmt(originalPrice)}
+                  </span>
+                  <span className={styles.priceValue} style={{ color: '#dc2626' }}>${fmt(salePrice)}</span>
+                  <span style={{ marginLeft: '0.5rem', background: '#dc2626', color: 'white', fontSize: '0.6875rem', fontWeight: 700, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                    {discount.label} {discount.percent}% OFF
+                  </span>
+                </span>
+              ) : (
+                <span className={styles.priceValue}>${fmt(originalPrice)}</span>
+              )}
             </div>
           </div>
 
@@ -97,7 +111,9 @@ export default async function ProductPage({
           <div className={styles.checkoutSection}>
             <div className={styles.totalContainer}>
               <span>Total Price</span>
-              <span className={styles.totalPrice}>${product.base_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+              <span className={styles.totalPrice} style={hasDiscount ? { color: '#dc2626' } : undefined}>
+                ${fmt(hasDiscount ? salePrice : originalPrice)}
+              </span>
             </div>
             <AddToCartButton
               className={`btn btn-primary ${styles.addToCartBtn}`}
@@ -105,7 +121,7 @@ export default async function ProductPage({
                 id: product.id,
                 slug: product.slug,
                 name: product.name,
-                price: product.base_price,
+                price: hasDiscount ? salePrice : originalPrice,
                 image: images[0] ?? '',
               }}
             />
