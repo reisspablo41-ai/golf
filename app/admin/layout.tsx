@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Zap, LogOut } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
+import AdminMobileNav from '@/components/AdminMobileNav';
 import styles from './admin.module.css';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -65,6 +66,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <span className={styles.topbarBadge}>Live Site</span>
           </div>
         </header>
+
+        {/* Secondary nav — visible on mobile only, replaces the hidden sidebar */}
+        <AdminMobileNav />
 
         <div className={styles.contentArea}>
           {children}
