@@ -35,7 +35,7 @@ export default async function AdminCustomersPage() {
       customerMap.set(email, {
         email,
         name: addr.name || email,
-        phone: o.customer_phone || '',
+        phone: (o as any).customer_phone || '',
         orders: [o],
         inquiries: [],
         lastSeen: o.created_at,

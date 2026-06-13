@@ -9,7 +9,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get('admin_auth')?.value === process.env.ADMIN_PASSWORD;
 
-  if (!isAdmin) redirect('/admin/login');
+  // Not authenticated — render children bare (the login page).
+  // proxy.ts already redirects all other /admin/* paths here, so we
+  // never reach this layout for protected pages when unauthenticated.
+  if (!isAdmin) return <>{children}</>;
 
   async function logout() {
     'use server';
