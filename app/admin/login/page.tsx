@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Zap } from 'lucide-react';
 import styles from '../admin.module.css';
+import LoginButton from './LoginButton';
 
 export default async function AdminLogin({
   searchParams,
@@ -60,9 +61,7 @@ export default async function AdminLogin({
             />
           </div>
 
-          <button type="submit" className={styles.loginSubmit}>
-            Sign In
-          </button>
+          <LoginButton />
         </form>
 
       </div>

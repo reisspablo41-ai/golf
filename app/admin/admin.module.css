@@ -697,7 +697,27 @@
   margin-top: 0.25rem;
 }
 
-.loginSubmit:hover {
+.loginSubmit:hover:not(:disabled) {
   background: #facc15;
   transform: translateY(-1px);
+}
+
+.loginSubmit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.loginSpinner {
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid rgba(11, 17, 32, 0.3);
+  border-top-color: #0b1120;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
