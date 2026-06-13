@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   async function logout() {
     'use server';
     const store = await cookies();
-    store.delete('admin_auth');
+    store.delete({ name: 'admin_auth', path: '/' });
     redirect('/admin/login');
   }
 

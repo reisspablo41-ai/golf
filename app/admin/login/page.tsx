@@ -15,10 +15,13 @@ export default async function AdminLogin({
     const password = formData.get('password') as string;
     if (password === process.env.ADMIN_PASSWORD) {
       const store = await cookies();
+      // Remove old cookie that was scoped to /admin (doesn't reach /api/* routes)
+      store.delete({ name: 'admin_auth', path: '/admin' });
+      // Set cookie at root so it's sent with every request, including /api/*
       store.set('admin_auth', password, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        path: '/admin',
+        path: '/',
         maxAge: 60 * 60 * 24 * 7,
       });
       redirect('/admin');
