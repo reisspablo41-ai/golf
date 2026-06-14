@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import AdminImageUploader from '@/components/AdminImageUploader';
 import styles from '../../admin.module.css';
 
@@ -9,7 +9,7 @@ export default function NewProductPage() {
 
   async function createProduct(formData: FormData) {
     'use server';
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const name = formData.get('name') as string;
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');

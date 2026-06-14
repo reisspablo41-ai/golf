@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import AdminImageUploader from '@/components/AdminImageUploader';
 import styles from '../../../admin.module.css';
 
@@ -14,7 +15,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
 
   async function updateProduct(formData: FormData) {
     'use server';
-    const supabaseClient = await createClient();
+    const supabaseClient = createAdminClient();
 
     const name = formData.get('name') as string;
     const category = formData.get('category') as string;
